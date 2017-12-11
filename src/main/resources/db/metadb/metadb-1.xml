@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="justin.li" id="feature-1">
+        <comment>Storage for configuration</comment>
+        <createTable tableName="tm_config">
+            <column name="cfg_classifier" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="cfg_key" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="cfg_value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cfg_remarks" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+        <sql>CREATE INDEX `tm_config_classifier` ON `tm_config` (`cfg_classifier`)</sql>
+    </changeSet>
+
+    <changeSet author="justin.li" id="feature-2">
+        <comment>Adding bundle specific override</comment>
+        <addColumn tableName="tm_config">
+            <column name="cfg_bundle" type="VARCHAR(255)" afterColumn="cfg_classifier" beforeColumn="cfg_key">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
