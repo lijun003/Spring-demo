@@ -19,6 +19,8 @@ target/
 *.war
 *.ear
 
+./mvn
+
 ### NetBeans ###
 nbproject/private/
 build/
