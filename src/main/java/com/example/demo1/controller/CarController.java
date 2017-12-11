@@ -36,7 +36,7 @@ public class CarController {
     }
 
     @RequestMapping(value = "/car", method = GET)
-    public @ResponseBody List<Car> findAll() {
-        return carService.findAll();
+    public @ResponseBody List<Car> findAll(@RequestParam int page, @RequestParam int size) {
+        return carService.findAll(page, size);
     }
 }
