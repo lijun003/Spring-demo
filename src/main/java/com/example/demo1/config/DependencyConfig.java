@@ -7,8 +7,10 @@ import com.example.demo1.service.CarService;
 import com.example.demo1.service.CarServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableMBeanExport;
 
 @Configuration
+@EnableMBeanExport
 public class DependencyConfig {
     @Bean
     public CarService carService(CarRepository carRepository) {
