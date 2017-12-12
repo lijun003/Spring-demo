@@ -8,7 +8,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.ws.rs.NotFoundException;
 import java.util.List;
+
+import static com.sun.javafx.binding.StringFormatter.format;
 
 @Slf4j
 @Service
@@ -23,6 +26,22 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car save(Car car) {
         return carRepository.save(car);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        carRepository.delete(id);
+    }
+
+    @Override public Car updateCarNumById(String id, String carNum) throws NotFoundException {
+        Car car = this.carRepository.findOne(id);
+        if (null != car) {
+            car.setCarNum(carNum);
+            return carRepository.save(car);
+        } else {
+            throw new NotFoundException(format("can not find car by id: %s", id).getValue());
+        }
+
     }
 
     @Override

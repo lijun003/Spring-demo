@@ -4,20 +4,21 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
+import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.util.Date;
-import java.util.UUID;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 @Data
-public class BaseEntity {
+@MappedSuperclass
+public abstract class BaseEntity<ID> implements Serializable {
     @Id
     @Column(name = "id", unique = true)
-    private String id;
+    private ID id;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
@@ -35,16 +36,13 @@ public class BaseEntity {
 
     @PrePersist
     void prePersist() {
-        if (isEmpty(id)) {
-            setId(UUID.randomUUID().toString());
-        }
-
         if (null == createdDate) {
             setCreatedDate(new Date());
         }
     }
 
     @PreUpdate
+    @PreRemove
     void preUpdate() {
         if (null == modifiedDate) {
             setModifiedDate(new Date());

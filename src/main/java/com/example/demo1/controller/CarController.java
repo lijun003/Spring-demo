@@ -2,6 +2,7 @@ package com.example.demo1.controller;
 
 import com.example.demo1.entity.Car;
 import com.example.demo1.service.CarService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 @Controller
 public class CarController {
@@ -33,6 +35,13 @@ public class CarController {
     @RequestMapping(value = "/car/{id}", method = GET)
     public @ResponseBody Car findById(@PathVariable String id) {
         return carService.findById(id);
+    }
+
+    @RequestMapping(value = "/car", method = PUT, consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+    public @ResponseBody Car updateCarNumById(@RequestParam String id, @RequestParam String carNum)
+            throws NotFoundException {
+
+        return carService.updateCarNumById(id, carNum);
     }
 
     @RequestMapping(value = "/car", method = GET)
