@@ -1,8 +1,12 @@
 package com.example.demo1.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Column;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
@@ -15,19 +19,23 @@ import java.util.Date;
 
 @Data
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity<ID> implements Serializable {
     @Id
     @Column(name = "id", unique = true)
     private ID id;
 
+    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
     private Date createdDate;
 
+    @LastModifiedDate
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modified_date")
     private Date modifiedDate;
 
+    @CreatedDate
     @Column(name = "created_by")
     private Long createdBy;
 
@@ -37,7 +45,7 @@ public abstract class BaseEntity<ID> implements Serializable {
     @PrePersist
     void prePersist() {
         if (null == createdDate) {
-            setCreatedDate(new Date());
+//            setCreatedDate(new Date());
         }
     }
 
@@ -45,7 +53,7 @@ public abstract class BaseEntity<ID> implements Serializable {
     @PreRemove
     void preUpdate() {
         if (null == modifiedDate) {
-            setModifiedDate(new Date());
+//            setModifiedDate(new Date());
         }
     }
 }
