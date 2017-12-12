@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 import javax.ws.rs.NotFoundException;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.List;
 import static com.sun.javafx.binding.StringFormatter.format;
 
 @Slf4j
-@Service
 public class CarServiceImpl implements CarService {
     private CarRepository carRepository;
 
