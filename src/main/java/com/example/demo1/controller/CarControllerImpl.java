@@ -27,32 +27,32 @@ public class CarControllerImpl implements CarController{
 
     @Override
     @RequestMapping(value = "/car", method = POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
-    @ResponseBody public Car save(@RequestBody Car car){
+    public Car save(@RequestBody Car car){
         return carService.save(car);
     }
 
     @Override
     @RequestMapping(value = "/car/{id}", method = GET)
-    @ResponseBody public Car findById(@PathVariable String id) {
+    public Car findById(@PathVariable String id) {
         return carService.findById(id);
     }
 
     @Override
     @RequestMapping(value = "/car", method = PUT, consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-    @ResponseBody public Car updateCarNumById(@RequestParam String id, @RequestParam String carNum) {
+    public Car updateCarNumById(@RequestParam String id, @RequestParam String carNum) {
 
         return carService.updateCarNumById(id, carNum);
     }
 
     @Override
     @RequestMapping(value = "/car", method = GET)
-    @ResponseBody public List<Car> findAll(@RequestParam int page, @RequestParam int size) {
+    public List<Car> findAll(@RequestParam int page, @RequestParam int size) {
         return carService.findAll(page, size);
     }
 
     @Override
     @RequestMapping(value = "/car/{id}", method = DELETE)
-    @ResponseBody public void deleteById(@PathVariable String id) {
+    public void deleteById(@PathVariable String id) {
         carService.deleteById(id);
     }
 }
