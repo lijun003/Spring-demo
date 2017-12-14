@@ -35,7 +35,6 @@ public abstract class BaseEntity<ID> implements Serializable {
     @Column(name = "modified_date")
     private Date modifiedDate;
 
-    @CreatedDate
     @Column(name = "created_by")
     private Long createdBy;
 
