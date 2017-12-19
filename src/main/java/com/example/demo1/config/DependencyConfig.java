@@ -12,6 +12,7 @@ import org.springframework.context.annotation.EnableMBeanExport;
 @Configuration
 @EnableMBeanExport
 public class DependencyConfig {
+
     @Bean
     public CarService carService(CarRepository carRepository) {
         return new CarServiceImpl(carRepository);

@@ -1,19 +1,22 @@
 package com.example.demo1.controller;
 
-import com.example.demo1.entity.Car;
+import com.example.demo1.Filter;
+import com.example.demo1.entity.CarEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 public interface CarController {
-    Car save(Car car);
+    CarEntity save(CarEntity carEntity);
 
-    Car findById(String id);
+    CarEntity findById(String id);
 
-    Car updateCarNumById(String id, String carNum);
+    CarEntity updateCarNumById(String id, String carNum);
 
-    List<Car> findAll(int page, int size);
+    List<CarEntity> findAll(int page, int size);
+
+    List<CarEntity> findAll(Filter filter);
 
     void deleteById(String id);
 }

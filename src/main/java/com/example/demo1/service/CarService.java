@@ -1,14 +1,16 @@
 package com.example.demo1.service;
 
-import com.example.demo1.entity.Car;
+import com.example.demo1.Filter;
+import com.example.demo1.entity.CarEntity;
 
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
 public interface CarService {
-    Car save(Car car);
+    CarEntity save(CarEntity carEntity);
     void deleteById(String id);
-    Car updateCarNumById(String id, String carNum) throws NotFoundException;
-    Car findById(String id);
-    List<Car> findAll(int page, int size);
+    CarEntity updateCarNumById(String id, String carNum) throws NotFoundException;
+    CarEntity findById(String id);
+    List<CarEntity> findAll(int page, int size);
+    List<CarEntity> findAll(Filter filter);
 }

@@ -1,6 +1,7 @@
 package com.example.demo1.controller;
 
-import com.example.demo1.entity.Car;
+import com.example.demo1.Filter;
+import com.example.demo1.entity.CarEntity;
 import com.example.demo1.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -26,27 +27,32 @@ public class CarControllerImpl implements CarController{
 
     @Override
     @RequestMapping(value = "/car", method = POST, consumes = { MediaType.APPLICATION_JSON_VALUE })
-    public Car save(@RequestBody Car car){
-        return carService.save(car);
+    public CarEntity save(@RequestBody CarEntity carEntity){
+        return carService.save(carEntity);
     }
 
     @Override
     @RequestMapping(value = "/car/{id}", method = GET)
-    public Car findById(@PathVariable String id) {
+    public CarEntity findById(@PathVariable String id) {
         return carService.findById(id);
     }
 
     @Override
     @RequestMapping(value = "/car", method = PUT, consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
-    public Car updateCarNumById(@RequestParam String id, @RequestParam String carNum) {
+    public CarEntity updateCarNumById(@RequestParam String id, @RequestParam String carNum) {
 
         return carService.updateCarNumById(id, carNum);
     }
 
     @Override
     @RequestMapping(value = "/car", method = GET)
-    public List<Car> findAll(@RequestParam int page, @RequestParam int size) {
+    public List<CarEntity> findAll(@RequestParam int page, @RequestParam int size) {
         return carService.findAll(page, size);
+    }
+    @Override
+    @RequestMapping(value = "/car", method = POST)
+    public List<CarEntity> findAll(@RequestBody Filter filter) {
+        return carService.findAll(filter);
     }
 
     @Override

@@ -1,12 +1,17 @@
 package com.example.demo1.service;
 
-import com.example.demo1.entity.Car;
+import com.example.demo1.Filter;
+import com.example.demo1.entity.CarEntity;
+import com.example.demo1.entity.Color;
 import com.example.demo1.repository.CarRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.Predicate;
 import javax.ws.rs.NotFoundException;
 import java.util.List;
 
@@ -22,8 +27,8 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public Car save(Car car) {
-        return carRepository.save(car);
+    public CarEntity save(CarEntity carEntity) {
+        return carRepository.save(carEntity);
     }
 
     @Override
@@ -31,29 +36,47 @@ public class CarServiceImpl implements CarService {
         carRepository.delete(id);
     }
 
-    @Override public Car updateCarNumById(String id, String carNum) throws NotFoundException {
-        Car car = this.carRepository.findOne(id);
-        if (null != car) {
-            car.setCarNum(carNum);
-            return carRepository.save(car);
+    @Override public CarEntity updateCarNumById(String id, String carNum) throws NotFoundException {
+        CarEntity carEntity = this.carRepository.findOne(id);
+        if (null != carEntity) {
+            carEntity.setCarNum(carNum);
+            return carRepository.save(carEntity);
         } else {
-            throw new NotFoundException(format("can not find car by id: %s", id).getValue());
+            throw new NotFoundException(format("can not find carEntity by id: %s", id).getValue());
         }
 
     }
 
     @Override
-    public Car findById(String id) {
+    public CarEntity findById(String id) {
         log.info("find by id: {}", id);
         return carRepository.findOne(id);
     }
 
     @Override
-    public List<Car> findAll(int page, int size) {
+    public List<CarEntity> findAll(int page, int size) {
         if (size > 0) {
             return carRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.DESC, "id"))).getContent();
         } else {
             return carRepository.findAll();
         }
+    }
+
+    @Override public List<CarEntity> findAll(Filter filter) {
+        Specification<CarEntity> specification = ((root, cq, cb) -> {
+            Predicate predicate = cb.isNotNull(root.get("id"));
+            String carNumKeyword = filter.getCarNumKeyword();
+            if (StringUtils.isNotBlank(carNumKeyword)) {
+                predicate= cb.and(predicate, cb.like(root.get("carNum"), "%" + carNumKeyword + "%"));
+            }
+
+            Color color = filter.getColor();
+            if (null != color) {
+                predicate = cb.and(predicate, cb.equal(root.get("color"), filter.getColor()));
+            }
+
+            return predicate;
+        });
+        return carRepository.findAll(specification);
     }
 }
