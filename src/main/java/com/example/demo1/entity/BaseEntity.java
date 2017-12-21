@@ -1,9 +1,13 @@
 package com.example.demo1.entity;
 
 import lombok.Data;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
@@ -36,23 +40,31 @@ public abstract class BaseEntity<ID> implements Serializable {
     private Date modifiedDate;
 
     @Column(name = "created_by")
-    private Long createdBy;
+    private String createdBy;
 
     @Column(name = "modified_by")
-    private Long modifiedBy;
+    private String modifiedBy;
 
     @PrePersist
     void prePersist() {
-        if (null == createdDate) {
-//            setCreatedDate(new Date());
+        if (null == createdBy) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails){
+                setCreatedBy(((UserDetails) principal).getUsername());
+            }else {
+                setCreatedBy(principal.toString());
+            }
+
         }
     }
 
     @PreUpdate
     @PreRemove
     void preUpdate() {
-        if (null == modifiedDate) {
-//            setModifiedDate(new Date());
+        if (null == modifiedBy) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof UserDetails)
+                setModifiedBy(((UserDetails) principal).getUsername());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.example.demo1.controller;
 
-import com.example.demo1.Filter;
+import com.example.demo1.domain.Filter;
 import com.example.demo1.entity.CarEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,8 +13,6 @@ public interface CarController {
     CarEntity findById(String id);
 
     CarEntity updateCarNumById(String id, String carNum);
-
-    List<CarEntity> findAll(int page, int size);
 
     List<CarEntity> findAll(Filter filter);
 

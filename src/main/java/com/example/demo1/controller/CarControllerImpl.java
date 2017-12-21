@@ -1,6 +1,6 @@
 package com.example.demo1.controller;
 
-import com.example.demo1.Filter;
+import com.example.demo1.domain.Filter;
 import com.example.demo1.entity.CarEntity;
 import com.example.demo1.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,12 +45,7 @@ public class CarControllerImpl implements CarController{
     }
 
     @Override
-    @RequestMapping(value = "/car", method = GET)
-    public List<CarEntity> findAll(@RequestParam int page, @RequestParam int size) {
-        return carService.findAll(page, size);
-    }
-    @Override
-    @RequestMapping(value = "/car", method = POST)
+    @RequestMapping(value = "/car", method = PUT)
     public List<CarEntity> findAll(@RequestBody Filter filter) {
         return carService.findAll(filter);
     }

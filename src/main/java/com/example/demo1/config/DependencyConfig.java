@@ -8,6 +8,7 @@ import com.example.demo1.service.CarServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableMBeanExport;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableMBeanExport
@@ -21,6 +22,11 @@ public class DependencyConfig {
     @Bean
     public CarController carController(CarService carService) {
         return new CarControllerImpl(carService);
+    }
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
     }
 
 }

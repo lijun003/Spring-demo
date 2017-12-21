@@ -1,6 +1,6 @@
 package com.example.demo1.service;
 
-import com.example.demo1.Filter;
+import com.example.demo1.domain.Filter;
 import com.example.demo1.entity.CarEntity;
 
 import javax.ws.rs.NotFoundException;

@@ -1,6 +1,6 @@
 package com.example.demo1.service;
 
-import com.example.demo1.Filter;
+import com.example.demo1.domain.Filter;
 import com.example.demo1.entity.CarEntity;
 import com.example.demo1.entity.Color;
 import com.example.demo1.repository.CarRepository;
@@ -77,6 +77,11 @@ public class CarServiceImpl implements CarService {
 
             return predicate;
         });
+        int size = filter.getSize();
+        int page = filter.getPage();
+        if (size > 0) {
+            return carRepository.findAll(specification, new PageRequest(page, size, new Sort(Sort.Direction.DESC, "id"))).getContent();
+        }
         return carRepository.findAll(specification);
     }
 }
